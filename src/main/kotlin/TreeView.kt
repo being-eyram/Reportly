@@ -1,4 +1,6 @@
 import androidx.compose.animation.*
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -43,131 +45,149 @@ fun TreeView(
                 .selectableGroup()
                 .wrapContentSize()
                 .animateContentSize(
-                    animationSpec = tween()
+                    animationSpec = tween(
+                        durationMillis = 450,
+                        easing = FastOutSlowInEasing
+                    )
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
             TreeViewHeader(title, onExpandButtonClick)
 
-            if (isExpanded) {
-                content()
+                AnimatedVisibility(
+                    visible = isExpanded,
+                    enter = fadeIn() + slideInVertically(
+                        animationSpec = tween(
+                            delayMillis = 50,
+                            easing = LinearOutSlowInEasing
+                        ),
+                        initialOffsetY = { -it / 8 }),
+                    exit = fadeOut() + slideOutVertically(
+                        animationSpec = tween(
+                            easing = LinearOutSlowInEasing
+                        )
+                    ),
+                ) {
+                    if (isExpanded) {
+                        Column {
+                            content()
+                        }
+                    }
+                }
             }
         }
     }
-}
 
 
-@Composable
-fun TreeViewItem(
-    selected: Boolean,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    label: @Composable () -> Unit,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    selectedContentColor: Color = MaterialTheme.colors.primary,
-    unselectedContentColor: Color = Color.Transparent
-) {
-    // Todo remember to make selecteed color the icon color.
-    var color = remember { mutableStateOf(unselectedContentColor) }
-
-    color.value = if (selected) selectedContentColor else unselectedContentColor
-
-    Box(
-        modifier
-            .fillMaxWidth()
-            .requiredHeightIn(32.dp, 32.dp)
-            .selectable(
-                selected = selected,
-                onClick = onClick,
-                enabled = enabled,
-                role = Role.Tab,
-                interactionSource = interactionSource,
-                indication = null
-            ),
-        contentAlignment = Alignment.Center
+    @Composable
+    fun TreeViewItem(
+        selected: Boolean,
+        onClick: () -> Unit,
+        modifier: Modifier = Modifier,
+        enabled: Boolean = true,
+        label: @Composable () -> Unit,
+        interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+        selectedContentColor: Color = MaterialTheme.colors.primary,
+        unselectedContentColor: Color = Color.Transparent
     ) {
-        Row(
-            modifier = Modifier
-                .padding(horizontal = 4.dp)
-                .fillMaxSize()
-                .background(
-                    color = color.value,
-                    shape = RoundedCornerShape(4.dp)
+        // Todo remember to make selecteed color the icon color.
+        var color = remember { mutableStateOf(unselectedContentColor) }
+
+        color.value = if (selected) selectedContentColor else unselectedContentColor
+
+        Box(
+            modifier
+                .fillMaxWidth()
+                .requiredHeightIn(32.dp, 32.dp)
+                .selectable(
+                    selected = selected,
+                    onClick = onClick,
+                    enabled = enabled,
+                    role = Role.Tab,
+                    interactionSource = interactionSource,
+                    indication = null
                 ),
+            contentAlignment = Alignment.Center
+        ) {
+            Row(
+                modifier = Modifier
+                    .padding(horizontal = 4.dp)
+                    .fillMaxSize()
+                    .background(
+                        color = color.value,
+                        shape = RoundedCornerShape(4.dp)
+                    ),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (selected) { SelectedIndicator(Color.Yellow) }
+
+                Spacer(Modifier.width(80.dp))
+
+                Icon(
+                    painter = painterResource(Icons.Tag),
+                    contentDescription = null,
+                    tint = Color.Yellow
+                )
+
+                Spacer(Modifier.width(12.dp))
+
+                label()
+            }
+        }
+    }
+
+
+    @Composable
+    fun SelectedIndicator(color: Color) {
+        Surface(
+            modifier = Modifier.size(4.dp, 16.dp),
+            color = color,
+            shape = RoundedCornerShape(50),
+            content = {}
+        )
+    }
+
+
+    @Composable
+    fun TreeViewHeader(title: String, onExpandButtonClick: () -> Unit) {
+        Row(
+            modifier = Modifier.requiredSize(
+                width = Dp.Unspecified,
+                height = 40.dp
+            ).fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (selected) {
-                SelectedIndicator(Color.Yellow)
-            }
 
-            Spacer(Modifier.width(80.dp))
+
+            Spacer(modifier = Modifier.width(24.dp))
 
             Icon(
-                painter = painterResource(Icons.Tag),
+                modifier = Modifier.clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = rememberRipple(),
+                    role = Role.Button,
+                    onClick = onExpandButtonClick
+                ),
+                painter = painterResource(Icons.CaretDown),
                 contentDescription = null,
-                tint = Color.Yellow
+                tint = Color.White
             )
 
-            Spacer(Modifier.width(12.dp))
 
-            if (label != null) label()
+            Spacer(modifier = Modifier.width(20.dp))
 
+            Icon(
+                painter = painterResource(Icons.Hash),
+                contentDescription = null,
+                tint = Color.White
+            )
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            Text(
+                text = title,
+                color = Color.White
+            )
         }
     }
-}
-
-@Composable
-fun SelectedIndicator(color: Color) {
-    Surface(
-        modifier = Modifier.size(4.dp, 16.dp),
-        color = color,
-        shape = RoundedCornerShape(50),
-        content = {}
-    )
-}
-
-
-@Composable
-fun TreeViewHeader(title: String, onExpandButtonClick: () -> Unit) {
-    Row(
-        modifier = Modifier.requiredSize(
-            width = Dp.Unspecified,
-            height = 40.dp
-        ).fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-
-
-        Spacer(modifier = Modifier.width(24.dp))
-
-        Icon(
-            modifier = Modifier.clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = rememberRipple(),
-                role = Role.Button,
-                onClick = onExpandButtonClick
-            ),
-            painter = painterResource(Icons.CaretDown),
-            contentDescription = null,
-            tint = Color.White
-        )
-
-
-        Spacer(modifier = Modifier.width(20.dp))
-
-        Icon(
-            painter = painterResource(Icons.Hash),
-            contentDescription = null,
-            tint = Color.White
-        )
-
-        Spacer(modifier = Modifier.width(8.dp))
-
-        Text(
-            text = title,
-            color = Color.White
-        )
-    }
-}
