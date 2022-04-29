@@ -42,7 +42,13 @@ fun TreeView(
         Column(
             modifier = Modifier
                 .selectableGroup()
-                .wrapContentSize(),
+                .wrapContentSize()
+                .animateContentSize(
+                    animationSpec = tween(
+                        durationMillis = 450,
+                        easing = FastOutSlowInEasing
+                    )
+                ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
@@ -50,8 +56,17 @@ fun TreeView(
 
             AnimatedVisibility(
                 visible = isExpanded,
-                enter= fadeIn() + slideInVertically() ,
-                exit = slideOutVertically() ,
+                enter = fadeIn() + slideInVertically(
+                    animationSpec = tween(
+                        delayMillis = 50,
+                        easing = LinearOutSlowInEasing
+                    ),
+                    initialOffsetY = { -it / 8 }),
+                exit = fadeOut() + slideOutVertically(
+                    animationSpec = tween(
+                        easing = LinearOutSlowInEasing
+                    )
+                ),
             ) {
                 if (isExpanded) {
                     Column {
