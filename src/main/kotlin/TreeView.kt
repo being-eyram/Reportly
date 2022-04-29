@@ -1,7 +1,6 @@
 import androidx.compose.animation.*
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -19,8 +18,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import util.Icons
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -42,22 +41,17 @@ fun TreeView(
         Column(
             modifier = Modifier
                 .selectableGroup()
-                .wrapContentSize(),
+                .wrapContentSize()
+                .animateContentSize(
+                    animationSpec = tween()
+                ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
             TreeViewHeader(title, onExpandButtonClick)
 
-            AnimatedVisibility(
-                visible = isExpanded,
-                enter= fadeIn() + slideInVertically() ,
-                exit = slideOutVertically() ,
-            ) {
-                if (isExpanded) {
-                    Column {
-                        content()
-                    }
-                }
+            if (isExpanded) {
+                content()
             }
         }
     }

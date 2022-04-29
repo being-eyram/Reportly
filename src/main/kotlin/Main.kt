@@ -25,13 +25,10 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
         state = rememberWindowState(size = DpSize(1080.dp, 720.dp))
     ) {
-
         ReportlyTheme {
             Screen()
         }
     }
-
-
 }
 
 
