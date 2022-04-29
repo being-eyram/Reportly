@@ -125,7 +125,7 @@ fun TreeViewItem(
                 SelectedIndicator(Color.Yellow)
             }
 
-            Spacer(Modifier.width(80.dp))
+            Spacer(Modifier.width(48.dp))
 
             Icon(
                 painter = painterResource(Icons.Tag),
