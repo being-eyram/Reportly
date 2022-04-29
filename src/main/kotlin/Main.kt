@@ -2,17 +2,21 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -166,7 +170,7 @@ fun RowScope.ReportDetailsSection() {
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            Row(Modifier.padding(start= 64.dp)){
+            Row(Modifier.padding(start = 64.dp)) {
                 Icon(
                     modifier = Modifier.padding(top = 28.dp),
                     painter = painterResource(Icons.Tag),
@@ -286,5 +290,28 @@ fun TextEditingButtons(modifier: Modifier = Modifier) {
                 tint = Color.White
             )
         }
+    }
+}
+
+@Composable
+fun ReportlyIconButton(modifier: Modifier = Modifier, onClick: () -> Unit, content: @Composable () -> Unit) {
+    Box(
+        modifier = modifier
+            .clickable(
+                onClick = onClick,
+                enabled = true,
+                role = Role.Button,
+                interactionSource = remember { MutableInteractionSource() },
+                indication = rememberRipple(
+                    bounded = false,
+                    radius = 18.dp
+                )
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        CompositionLocalProvider(
+            LocalContentAlpha provides LocalContentAlpha.current,
+            content = content
+        )
     }
 }

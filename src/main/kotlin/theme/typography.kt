@@ -8,17 +8,17 @@ import androidx.compose.ui.text.platform.Font
 import androidx.compose.ui.unit.sp
 
 
-val LatoFontFamily = FontFamily(
+val SegoeVF = FontFamily(
     fonts = listOf(
-        Font(resource = "fonts/Lato-Light.ttf", weight = FontWeight.Light),
-        Font(resource = "fonts/Lato-Regular.ttf", weight = FontWeight.Normal),
-        Font(resource = "fonts/Lato-Bold.ttf", weight = FontWeight.Bold)
+        Font(resource = "fonts/SegoeUI-VF.ttf", weight = FontWeight.Light),
+        Font(resource = "fonts/SegoeUI-VF.ttf", weight = FontWeight.Normal),
+        Font(resource = "fonts/SegoeUI-VF.ttf", weight = FontWeight.Bold)
     )
 )
 
 
 val typography = Typography(
-    defaultFontFamily = LatoFontFamily,
+    defaultFontFamily = SegoeVF,
     h1 = TextStyle(
         fontWeight = FontWeight.Light,
         fontSize = 96.sp,
