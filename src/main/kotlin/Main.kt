@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -159,43 +160,49 @@ fun RowScope.ReportDetailsSection() {
             .background(color = MaterialTheme.colors.background)
     ) {
 
-        Row() {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
 
-            Spacer(Modifier.width(44.dp))
+            Row(Modifier.padding(start= 64.dp)){
+                Icon(
+                    modifier = Modifier.padding(top = 28.dp),
+                    painter = painterResource(Icons.Tag),
+                    contentDescription = null,
+                    tint = Color.Yellow
+                )
 
-            Icon(
-                modifier = Modifier.padding(top = 28.dp),
-                painter = painterResource(Icons.Tag),
-                contentDescription = null,
-                tint = Color.Yellow
-            )
+                Spacer(Modifier.width(4.dp))
 
-            Spacer(Modifier.width(4.dp))
+                Column(Modifier.wrapContentSize()) {
+                    Text(
+                        modifier = Modifier
+                            .paddingFromBaseline(
+                                top = 42.dp,
+                                bottom = 4.dp
+                            ),
+                        text = "Monday",
+                        color = Color.White,
+                        fontSize = 16.sp
+                    )
 
-            Column(Modifier.wrapContentSize()) {
-                Text(
-                    modifier = Modifier
-                        .paddingFromBaseline(
-                            top = 42.dp,
-                            bottom = 4.dp
+                    Text(
+                        modifier = Modifier.paddingFromBaseline(
+                            top = 12.dp,
+                            bottom = 24.dp
                         ),
-                    text = "Monday",
-                    color = Color.White,
-                    fontSize = 16.sp
-                )
-
-                Text(
-                    modifier = Modifier.paddingFromBaseline(
-                        top = 12.dp,
-                        bottom = 24.dp
-                    ),
-                    text = "Week 1",
-                    color = Color.White.copy(alpha = 0.65f),
-                    fontSize = 12.sp
-                )
-
+                        text = "Week 1",
+                        color = Color.White.copy(alpha = 0.65f),
+                        fontSize = 12.sp
+                    )
+                }
             }
+
+            TextEditingButtons(Modifier.padding(end = 64.dp))
         }
+
         Divider(Modifier.fillMaxWidth())
 
         Spacer(Modifier.height(44.dp))
@@ -222,9 +229,62 @@ fun RowScope.ReportDetailsSection() {
 
         Spacer(Modifier.height(54.dp))
 
-        Row(Modifier.fillMaxWidth().background(Color.Red).height(55.dp)){}
+        Row(Modifier.fillMaxWidth().background(Color.Red).height(55.dp)) {}
 
         Spacer(Modifier.height(54.dp))
     }
 
+}
+
+@Composable
+fun TextEditingButtons(modifier: Modifier = Modifier) {
+    Row(
+        modifier = modifier
+    ) {
+        IconButton(
+            modifier = Modifier.background(
+                color = Color.White.copy(0.07f),
+                shape = RoundedCornerShape(12.dp)
+            ),
+            onClick = {}
+        ) {
+            Icon(
+                painter = painterResource(Icons.Bold),
+                contentDescription = null,
+                tint = Color.White
+            )
+        }
+
+        Spacer(Modifier.width(10.dp))
+
+        IconButton(
+            modifier = Modifier.background(
+                color = Color.White.copy(0.07f),
+                shape = RoundedCornerShape(12.dp)
+            ),
+            onClick = {}
+        ) {
+            Icon(
+                painter = painterResource(Icons.Italic),
+                contentDescription = null,
+                tint = Color.White
+            )
+        }
+
+        Spacer(Modifier.width(10.dp))
+
+        IconButton(
+            modifier = Modifier.background(
+                color = Color.White.copy(0.07f),
+                shape = RoundedCornerShape(12.dp)
+            ),
+            onClick = {}
+        ) {
+            Icon(
+                painter = painterResource(Icons.Underline),
+                contentDescription = null,
+                tint = Color.White
+            )
+        }
+    }
 }
