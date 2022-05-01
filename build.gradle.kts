@@ -5,6 +5,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.6.10"
     id("org.jetbrains.compose") version "1.1.1"
+    "com.squareup.sqldelight"
 }
 
 group = "me.eyram"
@@ -16,8 +17,16 @@ repositories {
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
 }
 
+buildscript {
+    dependencies {
+        classpath("com.squareup.sqldelight:gradle-plugin:1.5.3")
+    }
+}
+
 dependencies {
+    val koin_version= "3.1.6"
     implementation(compose.desktop.currentOs)
+    implementation ("io.insert-koin:koin-core:$koin_version")
 }
 
 tasks.withType<KotlinCompile> {
