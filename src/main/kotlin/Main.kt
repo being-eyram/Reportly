@@ -28,10 +28,17 @@ import fakedata.treeViewData
 import models.DailyReport
 import models.Day
 import models.WeeksReport
+import org.koin.core.context.startKoin
 import util.Icons
 import java.time.LocalTime
 
 fun main() = application {
+
+   startKoin {
+
+    }
+
+
     Window(
         onCloseRequest = ::exitApplication,
         state = rememberWindowState(size = DpSize(1080.dp, 720.dp))

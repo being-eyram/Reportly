@@ -1,0 +1,10 @@
+
+
+CREATE TABLE report (
+  work_week INTEGER,
+  work_day INTEGER,
+  report TEXT,
+  time_on TEXT,
+  time_off TEXT,
+  PRIMARY KEY (work_week, work_day)
+);

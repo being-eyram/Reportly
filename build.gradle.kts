@@ -5,7 +5,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.6.10"
     id("org.jetbrains.compose") version "1.1.1"
-    "com.squareup.sqldelight"
+    id("com.squareup.sqldelight")
 }
 
 group = "me.eyram"
@@ -15,12 +15,6 @@ repositories {
     google()
     mavenCentral()
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-}
-
-buildscript {
-    dependencies {
-        classpath("com.squareup.sqldelight:gradle-plugin:1.5.3")
-    }
 }
 
 
@@ -43,5 +37,12 @@ compose.desktop {
             packageName = "Reportly"
             packageVersion = "1.0.0"
         }
+    }
+}
+
+sqldelight {
+    database("ReportlyDatabase") {
+        packageName = "io.eyram.reportly.db"
+        schemaOutputDirectory = file("build/dbs")
     }
 }
