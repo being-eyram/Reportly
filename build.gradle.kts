@@ -23,10 +23,12 @@ buildscript {
     }
 }
 
+
 dependencies {
     val koin_version= "3.1.6"
     implementation(compose.desktop.currentOs)
     implementation ("io.insert-koin:koin-core:$koin_version")
+    implementation ("com.squareup.sqldelight:sqlite-driver:1.5.3")
 }
 
 tasks.withType<KotlinCompile> {
