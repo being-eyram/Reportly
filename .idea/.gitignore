@@ -10,8 +10,8 @@
 
 # Gradle files
 .gradle
-.gradle/
-build/
+*/.gradle/*
+
 
 
 # User-specific configurations
@@ -45,11 +45,3 @@ build/
 *.iws
 /out/
 
-# Bin & Lock
-
-*/.gradle/buildOutputCleanup/buildOutputCleanup.lock
-*/.gradle/buildOutputCleanup/outputFiles.bin
-*/.gradle/checksums/checksums.lock
-*/.gradle/checksums/md5-checksums.bin
-*/.gradle/checksums/sha1-checksums.bin
-*/build.gradle.kts

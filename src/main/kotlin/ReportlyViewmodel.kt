@@ -1,5 +1,3 @@
-
-
-class ReportlyViewmodel() {
+class ReportlyViewmodel(repository: ReportlyRepository) {
 
 }

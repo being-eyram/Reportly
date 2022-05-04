@@ -34,10 +34,9 @@ import java.time.LocalTime
 
 fun main() = application {
 
-   startKoin {
-
+    startKoin {
+        modules(databaseModule,repositoryModule)
     }
-
 
     Window(
         onCloseRequest = ::exitApplication,

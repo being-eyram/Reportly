@@ -1,7 +1,9 @@
+import io.eyram.reportly.db.ReportlyDatabase
 
 
+class ReportlyRepository(val database : ReportlyDatabase) {
 
-//class ReportlyRepository(val database : Database) {
-//
-//
-//}
+val reportQueries = database.workDayReportQueries
+
+
+}

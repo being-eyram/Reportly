@@ -8,3 +8,17 @@ CREATE TABLE report (
   time_off TEXT,
   PRIMARY KEY (work_week, work_day)
 );
+
+
+selectAll:
+SELECT *
+FROM report;
+
+commitReport:
+INSERT INTO report(
+work_week,
+work_day,
+report,
+time_on,
+time_off
+);
