@@ -1,8 +1,8 @@
 
 
 CREATE TABLE report (
-  work_week INTEGER,
-  work_day INTEGER,
+  work_week INTEGER NOT NULL,
+  work_day INTEGER NOT NULL,
   report TEXT,
   time_on TEXT,
   time_off TEXT,
