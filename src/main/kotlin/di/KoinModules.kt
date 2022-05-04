@@ -17,3 +17,9 @@ val repositoryModule = module {
         ReportlyRepository(get())
     }
 }
+
+val viewmodelModule = module {
+    single {
+        ReportlyViewmodel(get())
+    }
+}

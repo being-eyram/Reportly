@@ -21,4 +21,4 @@ work_day,
 report,
 time_on,
 time_off
-);
+) VALUES ?;

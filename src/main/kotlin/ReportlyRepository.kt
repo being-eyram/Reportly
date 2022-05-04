@@ -1,9 +1,15 @@
 import io.eyram.reportly.db.ReportlyDatabase
+import io.eyram.reportly.sqldelight.report.Report
 
 
-class ReportlyRepository(val database : ReportlyDatabase) {
+class ReportlyRepository(val database: ReportlyDatabase) {
 
-val reportQueries = database.workDayReportQueries
+    private val reportQueries = database.workDayReportQueries
 
+    fun getAllReports() = reportQueries
+        .selectAll()
+        .executeAsList()
+
+    fun commitReport(report : Report) = reportQueries.commitReport(report)
 
 }

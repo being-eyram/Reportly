@@ -34,8 +34,8 @@ import java.time.LocalTime
 
 fun main() = application {
 
-    startKoin {
-        modules(databaseModule,repositoryModule)
+    val app = startKoin {
+        modules(databaseModule, repositoryModule, viewmodelModule)
     }
 
     Window(
@@ -43,7 +43,7 @@ fun main() = application {
         state = rememberWindowState(size = DpSize(1080.dp, 720.dp))
     ) {
         ReportlyTheme {
-            Screen()
+            Screen(app.koin.get())
         }
     }
 }
@@ -51,7 +51,7 @@ fun main() = application {
 
 @Composable
 @Preview
-fun Screen() {
+fun Screen(viewmodel: ReportlyViewmodel) {
     Row(
         modifier = Modifier.fillMaxSize(),
         horizontalArrangement = Arrangement.SpaceBetween
@@ -60,7 +60,8 @@ fun Screen() {
         WeeksTab(treeViewData = treeViewData)
 
         ReportDetailsSection()
-
+        println(viewmodel.commitWeeksReport())
+        println(viewmodel.getAllReports())
     }
 }
 
