@@ -1,16 +1,16 @@
 # Default ignored files
 /shelf/
-/workspace.xml
+/.idea/workspace.xml
 
 # Build files
-**/build/**/*.class
+/build
 
 # Generated class files
 *.class
 
 # Gradle files
 .gradle
-*/.gradle/*
+
 
 
 
