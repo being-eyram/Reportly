@@ -1,12 +1,14 @@
+import models.WorkDay;
+
 
 
 CREATE TABLE report (
-  work_week INTEGER NOT NULL,
-  work_day INTEGER NOT NULL,
+  workWeek INTEGER AS Int NOT NULL,
+  workDay TEXT AS WorkDay NOT NULL,
   report TEXT,
-  time_on TEXT,
-  time_off TEXT,
-  PRIMARY KEY (work_week, work_day)
+  timeOn TEXT,
+  timeOff TEXT,
+  PRIMARY KEY (workWeek, workDay)
 );
 
 
@@ -15,10 +17,5 @@ SELECT *
 FROM report;
 
 commitReport:
-INSERT INTO report(
-work_week,
-work_day,
-report,
-time_on,
-time_off
-) VALUES ?;
+INSERT INTO report(workWeek,workDay,report,timeOn,timeOff)
+VALUES ?;

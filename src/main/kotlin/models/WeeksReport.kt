@@ -1,25 +1,8 @@
 package models
 
-import java.time.LocalTime
+import io.eyram.reportly.sqldelight.report.Report
 
 data class WeeksReport(
     val id: Int,
-    val dailyReports: List<DailyReport>
+    val dailyReports: List<Report>
 )
-
-data class DailyReport(
-    val id: Int,
-    val day: Day,
-    val timeOn: LocalTime,
-    val timeOff: LocalTime,
-    val report: String
-)
-
-
-sealed class Day {
-    object Monday : Day()
-    object Tuesday : Day()
-    object Wednesday : Day()
-    object Thursday : Day()
-    object Friday : Day()
-}

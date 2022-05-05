@@ -1,49 +1,47 @@
 package fakedata
 
-import androidx.compose.runtime.mutableStateMapOf
-import models.DailyReport
-import models.Day
+import io.eyram.reportly.sqldelight.report.Report
 import models.WeeksReport
-import java.time.LocalTime
+import models.WorkDay
 
 
-val mondayReport = DailyReport(
-    id = 1,
-    day = Day.Monday,
-    timeOn = LocalTime.parse("06:30"),
-    timeOff = LocalTime.parse("09:40"),
+val mondayReport = Report(
+    workWeek = 1,
+    workDay = WorkDay.Monday,
+    timeOn = "5:30 AM",
+    timeOff = null,
     report = "Hello, Monday!"
 )
 
-val tuesdayReport = DailyReport(
-    id = 2,
-    day = Day.Tuesday,
-    timeOn = LocalTime.parse("06:30"),
-    timeOff = LocalTime.parse("09:40"),
+val tuesdayReport = Report(
+    workWeek = 1,
+    workDay = WorkDay.Tuesday,
+    timeOn = "06:30",
+    timeOff = "09:40",
     report = "Hello, Tuesday!"
 )
 
-val wednesdayReport = DailyReport(
-    id = 3,
-    day = Day.Wednesday,
-    timeOn = LocalTime.parse("06:30"),
-    timeOff = LocalTime.parse("09:40"),
+val wednesdayReport = Report(
+    workWeek = 1,
+    workDay = WorkDay.Wednesday,
+    timeOn = "06:30",
+    timeOff = "09:40",
     report = "Hello, Wednesday!"
 )
 
-val thursdayReport = DailyReport(
-    id = 4,
-    day = Day.Thursday,
-    timeOn = LocalTime.parse("06:30"),
-    timeOff = LocalTime.parse("09:40"),
+val thursdayReport = Report(
+    workWeek = 1,
+    workDay = WorkDay.Thursday,
+    timeOn = "06:30",
+    timeOff = "09:40",
     report = "Hello, Thursday!"
 )
 
-val fridayReport = DailyReport(
-    id = 5,
-    day = Day.Friday,
-    timeOn = LocalTime.parse("06:30"),
-    timeOff = LocalTime.parse("09:40"),
+val fridayReport = Report(
+    workWeek = 1,
+    workDay = WorkDay.Friday,
+    timeOn = "06:30",
+    timeOff = "09:40",
     report = "Hello, Friday!"
 )
 //////////////////////////////////////////////

@@ -1,34 +1,27 @@
 import io.eyram.reportly.sqldelight.report.Report
+import models.WorkDay
 
 class ReportlyViewmodel(private val repository: ReportlyRepository) {
 
+    private val workWeek = listOf(
+        WorkDay.Monday,
+        WorkDay.Tuesday,
+        WorkDay.Wednesday,
+        WorkDay.Thursday,
+        WorkDay.Friday
+    )
+
     fun getAllReports() = repository.getAllReports()
+
     fun commitWeeksReport() = workWeek.forEach {
         repository.commitReport(
             Report(
-                work_week = 1,
-                work_day = it.code.toLong(),
+                workWeek = 1,
+                workDay = it,
                 report = "Some Report on ${it.name}",
-                time_on = "5:30 am",
-                time_off = null
+                timeOn = "5:30 am",
+                timeOff = null
             )
         )
     }
-
 }
-
-enum class WorkDay(val code: Int) {
-    Monday(1),
-    Tuesday(2),
-    Wednesday(3),
-    Thursday(4),
-    Friday(5)
-}
-
-val workWeek = listOf<WorkDay>(
-    WorkDay.Monday,
-    WorkDay.Tuesday,
-    WorkDay.Wednesday,
-    WorkDay.Thursday,
-    WorkDay.Friday
-)
