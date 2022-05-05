@@ -2,6 +2,7 @@
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -17,6 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -61,7 +63,9 @@ fun Screen(viewmodel: ReportlyViewmodel) {
     }
 }
 
+
 @Composable
+@Preview
 fun RowScope.WeeksTab(
     treeViewData: List<WeeksReport>
 ) {
@@ -73,7 +77,8 @@ fun RowScope.WeeksTab(
     Column(
         Modifier.weight(0.22f)
             .fillMaxHeight()
-            .background(color = MaterialTheme.colors.surface)
+            .background(color = MaterialTheme.colors.surface),
+
     ) {
 
         Text(
@@ -155,7 +160,11 @@ fun RowScope.WeeksTab(
                 }
             }
         }
+
         Divider(Modifier.fillMaxWidth())
+        //TODO: aDD WHAT HAPPENS WHEN BUTTON IS CLICKED
+        AddNewButton{  }
+
     }
 }
 
@@ -315,6 +324,44 @@ fun ReportlyIconButton(modifier: Modifier = Modifier, onClick: () -> Unit, conte
         CompositionLocalProvider(
             LocalContentAlpha provides LocalContentAlpha.current,
             content = content
+        )
+    }
+}
+
+@Composable
+fun AddNewButton(onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .height(40.dp)
+            .fillMaxWidth()
+            .clickable(
+                onClick = onClick,
+                enabled = true,
+                role = Role.Button,
+                interactionSource = remember { MutableInteractionSource() },
+                indication = rememberRipple(
+                    bounded = true,
+                    radius = Dp.Unspecified
+                )
+
+            ),
+        verticalAlignment = Alignment.CenterVertically,
+
+    ) {
+        Spacer(Modifier.width(24.dp))
+
+        Icon(
+            painter = painterResource(Icons.Add),
+            contentDescription = null,
+            tint = Color.White
+        )
+
+        Spacer(Modifier.width(12.dp))
+
+        Text(
+            text = "Add New Week",
+            color = Color.White,
+            style = MaterialTheme.typography.body2
         )
     }
 }
