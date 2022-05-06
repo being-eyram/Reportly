@@ -1,8 +1,7 @@
 import models.WorkDay;
 
 
-
-CREATE TABLE report (
+CREATE TABLE IF NOT EXISTS report (
   workWeek INTEGER AS Int NOT NULL,
   workDay TEXT AS WorkDay NOT NULL,
   report TEXT,
@@ -14,9 +13,13 @@ CREATE TABLE report (
 
 selectAll:
 SELECT *
-FROM report
-GROUP BY workWeek;
+FROM report;
 
 commitReport:
 INSERT INTO report(workWeek,workDay,report,timeOn,timeOff)
 VALUES ?;
+
+lastWeekNumber:
+SELECT workWeek
+FROM  report
+ORDER BY workWeek DESC  LIMIT 1;

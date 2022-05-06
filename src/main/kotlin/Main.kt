@@ -56,9 +56,14 @@ fun Screen(viewmodel: ReportlyViewmodel) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
 
-        WeeksTab(treeViewData = treeViewData)
+        WeeksTab(
+            treeViewData = viewmodel.weeksReport.collectAsState().value,
+            onAddButtonClick = {
+                viewmodel.commitWeeksReport()
+            }
+        )
 
         ReportDetailsSection()
-        println(viewmodel.getAllReports())
+        println( viewmodel.weeksReport.collectAsState().value)
     }
 }

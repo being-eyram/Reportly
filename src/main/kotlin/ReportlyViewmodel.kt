@@ -1,24 +1,50 @@
+import androidx.compose.runtime.collectAsState
 import io.eyram.reportly.sqldelight.report.Report
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import models.WeeksReport
 import models.WorkDay
+import org.jetbrains.skiko.MainUIDispatcher
+import org.koin.core.context.GlobalContext
 
 class ReportlyViewmodel(private val repository: ReportlyRepository) {
 
-    fun getAllReports() = repository.getAllReports()
+    private var lastWeekNumber = 0
 
-    private var counter = 1
+    private val mainScope = MainScope()
+    val weeksReport: StateFlow<List<WeeksReport>>
+        get() = _weeksReport
+
+    private var _weeksReport = MutableStateFlow(listOf(WeeksReport(0, listOf())))
+
+    init {
+        mainScope.launch(Dispatchers.IO) {
+            repository.getAllReports().collectAsState(listOf())
+        }
+
+        mainScope.launch(Dispatchers.IO) {
+            repository.getLastWeekNumber().collect { num ->
+                withContext(MainUIDispatcher) {
+                    lastWeekNumber = num
+                }
+            }
+        }
+    }
 
     fun commitWeeksReport() {
-        WorkDay.values().forEach {
-            repository.commitReport(
-                Report(
-                    workWeek = counter,
-                    workDay = it,
-                    report = "Some Report on ${it.name}",
-                    timeOn = "5:30 am",
-                    timeOff = null
+            WorkDay.values().forEach {
+                mainScope.launch(Dispatchers.IO) {
+                repository.commitReport(
+                    Report(
+                        workWeek = lastWeekNumber+1,
+                        workDay = it,
+                        report = "Some Report on ${it.name}",
+                        timeOn = "5:30 am",
+                        timeOff = null
+                    )
                 )
-            )
+            }
         }
-        counter++
     }
 }

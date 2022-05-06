@@ -26,7 +26,7 @@ import util.Icons
 
 @Composable
 @Preview
-fun RowScope.WeeksTab(treeViewData: List<WeeksReport>) {
+fun RowScope.WeeksTab(treeViewData: List<WeeksReport>, onAddButtonClick : () -> Unit) {
 
     val mapofExpandedWeeklyReport = remember { mutableStateMapOf<Int, Boolean>() }
     mapofExpandedWeeklyReport.putAll(fakedata.treeViewData.associate { it.id to false })
@@ -95,7 +95,7 @@ fun RowScope.WeeksTab(treeViewData: List<WeeksReport>) {
 
         Divider(Modifier.fillMaxWidth())
 
-        AddNewButton{  }
+        AddNewButton(onClick = onAddButtonClick)
 
     }
 }
