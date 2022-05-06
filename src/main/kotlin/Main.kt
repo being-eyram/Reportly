@@ -59,7 +59,6 @@ fun Screen(viewmodel: ReportlyViewmodel) {
         WeeksTab(treeViewData = treeViewData)
 
         ReportDetailsSection()
-        println(viewmodel.commitWeeksReport())
         println(viewmodel.getAllReports())
     }
 }
