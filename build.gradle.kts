@@ -24,6 +24,7 @@ dependencies {
     implementation ("io.insert-koin:koin-core:$koin_version")
     implementation ("com.squareup.sqldelight:sqlite-driver:1.5.3")
     implementation ("com.squareup.sqldelight:coroutines-extensions-jvm:1.5.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
 }
 
 tasks.withType<KotlinCompile> {

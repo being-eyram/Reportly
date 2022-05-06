@@ -14,7 +14,8 @@ CREATE TABLE report (
 
 selectAll:
 SELECT *
-FROM report;
+FROM report
+GROUP BY workWeek;
 
 commitReport:
 INSERT INTO report(workWeek,workDay,report,timeOn,timeOff)
