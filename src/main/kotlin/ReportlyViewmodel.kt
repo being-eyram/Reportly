@@ -10,7 +10,7 @@ import org.koin.core.context.GlobalContext
 
 class ReportlyViewmodel(private val repository: ReportlyRepository) {
 
-    private var lastWeekNumber = 0
+    private var lastWeekNumber = 1
 
     private val mainScope = MainScope()
     val weeksReport: StateFlow<List<WeeksReport>>
@@ -23,7 +23,11 @@ class ReportlyViewmodel(private val repository: ReportlyRepository) {
             try {
                 repository
                     .getAllReports()
-                    .collect {}
+                    .collect {
+                        _weeksReport.value = it.mapIndexed{index, reports ->
+                            WeeksReport(index, reports)
+                        }
+                    }
             } catch (e: Throwable) {
                 println(e.message)
             }

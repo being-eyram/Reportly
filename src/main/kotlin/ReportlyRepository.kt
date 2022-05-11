@@ -16,8 +16,8 @@ class ReportlyRepository(val database: ReportlyDatabase) {
         .map { it.chunked(5) }
 
     fun commitReport(reports: List<Report>) = reportQueries.transaction {
-        reports.forEach { report ->
-            reportQueries.commitReport(report)
+        reports.forEach {
+            reportQueries.commitReport(it)
         }
     }
 
