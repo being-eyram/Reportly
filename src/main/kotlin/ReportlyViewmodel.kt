@@ -20,24 +20,39 @@ class ReportlyViewmodel(private val repository: ReportlyRepository) {
 
     init {
         mainScope.launch(Dispatchers.IO) {
-            repository.getAllReports().collectAsState(listOf())
+            try {
+                repository
+                    .getAllReports()
+                    .collect {
+
+                    }
+            } catch (e: Throwable) {
+                println(e.message)
+            }
+
         }
 
         mainScope.launch(Dispatchers.IO) {
-            repository.getLastWeekNumber().collect { num ->
-                withContext(MainUIDispatcher) {
-                    lastWeekNumber = num
-                }
+            try {
+                repository
+                    .getLastWeekNumber()
+                    .collect { num ->
+                        withContext(MainUIDispatcher) {
+                            lastWeekNumber = num
+                        }
+                    }
+            } catch (e: Throwable) {
+                println("Error Message from LWN : ${e.message}")
             }
         }
     }
 
     fun commitWeeksReport() {
-            WorkDay.values().forEach {
-                mainScope.launch(Dispatchers.IO) {
+        WorkDay.values().forEach {
+            mainScope.launch(Dispatchers.IO) {
                 repository.commitReport(
                     Report(
-                        workWeek = lastWeekNumber+1,
+                        workWeek = lastWeekNumber + 1,
                         workDay = it,
                         report = "Some Report on ${it.name}",
                         timeOn = "5:30 am",

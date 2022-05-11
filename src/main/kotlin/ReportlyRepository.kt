@@ -16,11 +16,12 @@ class ReportlyRepository(val database: ReportlyDatabase) {
         .map { it.chunked(5) }
 
 
+
+
     suspend fun commitReport(report: Report) = reportQueries.commitReport(report)
 
     fun getLastWeekNumber() = reportQueries
         .lastWeekNumber()
         .asFlow()
         .map { it.executeAsOne() }
-
 }
