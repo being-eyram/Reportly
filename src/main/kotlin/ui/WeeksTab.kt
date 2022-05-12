@@ -1,4 +1,3 @@
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -25,7 +24,6 @@ import ui.components.SearchInputField
 import util.Icons
 
 @Composable
-@Preview
 fun RowScope.WeeksTab(treeViewData: List<WeeksReport>, onAddButtonClick : () -> Unit) {
 
     val mapofExpandedWeeklyReport = remember { mutableStateMapOf<Int, Boolean>() }

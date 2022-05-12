@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS report (
   PRIMARY KEY (workWeek, workDay)
 );
 
-INSERT INTO report(workWeek,workDay,report,timeOn,timeOff)
+INSERT OR IGNORE INTO report(workWeek,workDay,report,timeOn,timeOff)
 VALUES
 (1,
 "Monday",
