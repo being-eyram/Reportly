@@ -20,31 +20,23 @@ class ReportlyViewmodel(private val repository: ReportlyRepository) {
 
     init {
         mainScope.launch(Dispatchers.IO) {
-            try {
-                repository
-                    .getAllReports()
-                    .collect {
-                        _weeksReport.value = it.mapIndexed{index, reports ->
-                            WeeksReport(index, reports)
-                        }
+            repository
+                .getAllReports()
+                .collect {
+                    _weeksReport.value = it.mapIndexed { index, reports ->
+                        WeeksReport(index, reports)
                     }
-            } catch (e: Throwable) {
-                println(e.message)
-            }
+                }
         }
 
         mainScope.launch(Dispatchers.IO) {
-            try {
-                repository
-                    .getLastWeekNumber()
-                    .collect { num ->
-                        withContext(MainUIDispatcher) {
-                            lastWeekNumber = num
-                        }
+            repository
+                .getLastWeekNumber()
+                .collect { num ->
+                    withContext(MainUIDispatcher) {
+                        lastWeekNumber = num
                     }
-            } catch (e: Throwable) {
-                println("Error Message from LWN : ${e.message}")
-            }
+                }
         }
     }
 

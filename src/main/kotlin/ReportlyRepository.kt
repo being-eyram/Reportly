@@ -2,6 +2,7 @@ import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import io.eyram.reportly.db.ReportlyDatabase
 import io.eyram.reportly.sqldelight.report.Report
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 
 
@@ -14,6 +15,13 @@ class ReportlyRepository(val database: ReportlyDatabase) {
         .asFlow()
         .mapToList()
         .map { it.chunked(5) }
+        .catch { cause ->
+            println(
+                """message : ${cause.message} 
+                |cause : ${cause.cause}
+            """.trimMargin()
+            )
+        }
 
     fun commitReport(reports: List<Report>) = reportQueries.transaction {
         reports.forEach {
@@ -25,4 +33,11 @@ class ReportlyRepository(val database: ReportlyDatabase) {
         .lastWeekNumber()
         .asFlow()
         .map { it.executeAsOne() }
+        .catch { cause ->
+            println(
+                """message : ${cause.message} 
+                  |cause : ${cause.cause}
+            """.trimMargin()
+            )
+        }
 }

@@ -27,7 +27,7 @@ import util.Icons
 fun RowScope.WeeksTab(treeViewData: List<WeeksReport>, onAddButtonClick : () -> Unit) {
 
     val mapofExpandedWeeklyReport = remember { mutableStateMapOf<Int, Boolean>() }
-    mapofExpandedWeeklyReport.putAll(fakedata.treeViewData.associate { it.id to false })
+    mapofExpandedWeeklyReport.putAll(treeViewData.associate { it.id to false })
 
 
     Column(
