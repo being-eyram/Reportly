@@ -30,7 +30,7 @@ fun RowScope.ReportsTab(
     treeViewData: List<WeeksReport>,
     onAddButtonClick: () -> Unit,
     onSelect: (report: Report) -> Unit,
-    selectedStateHolder: Map<Report, Boolean>
+    selectedReport: Report
 ) {
     Column(
         Modifier.weight(0.22f)
@@ -81,7 +81,7 @@ fun RowScope.ReportsTab(
 
                     weeksReport.dailyReports.forEach { report ->
                         TreeViewItem(
-                            selected = selectedStateHolder[report]!!,
+                            selected = report == selectedReport,
                             onSelect = { onSelect.invoke(report) },
                             label = { Text(report.workDay.name, color = Color.White) },
                             selectedContentColor = selectedColor,

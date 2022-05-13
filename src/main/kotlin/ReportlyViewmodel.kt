@@ -4,6 +4,7 @@ import io.eyram.reportly.sqldelight.report.Report
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import models.WeeksReport
 import models.WorkDay
 import org.jetbrains.skiko.MainUIDispatcher
@@ -13,26 +14,24 @@ class ReportlyViewmodel(private val repository: ReportlyRepository) {
     private var lastWeekNumber = 1
 
     private val mainScope = MainScope()
-    val weeksReport: StateFlow<List<WeeksReport>>
-        get() = _weeksReport
 
-    private var _weeksReport = MutableStateFlow(listOf(WeeksReport(0, listOf())))
-
-    private val _selectedReportStateHolder = mutableStateMapOf<Report, Boolean>()
-    val selectedReportStateHolder: SnapshotStateMap<Report, Boolean>
-        get() = _selectedReportStateHolder
+    private val _uiState = MutableStateFlow(MainUiState())
+    val uiState: StateFlow<MainUiState> get() = _uiState
 
 
     init {
+
         mainScope.launch(Dispatchers.IO) {
             repository
                 .getAllReports()
-                .collect {
-                    _weeksReport.value = it.mapIndexed { index, reports ->
-                        withContext(MainUIDispatcher) {
-                            _selectedReportStateHolder.putAll(reports.associateWith { false })
-                        }
+                .collect { allWeeklyReports ->
+
+                    val weeksReport = allWeeklyReports.mapIndexed { index, reports ->
                         WeeksReport(index, reports)
+                    }
+
+                    _uiState.update { currentUiState ->
+                        currentUiState.copy(weeksReport = weeksReport)
                     }
                 }
         }
@@ -63,6 +62,14 @@ class ReportlyViewmodel(private val repository: ReportlyRepository) {
     }
 
     fun onSelect(report: Report) {
-        _selectedReportStateHolder[report] = !_selectedReportStateHolder[report]!!
+        _uiState.update { currentUiState ->
+            currentUiState.copy(selectedReport = report)
+        }
     }
 }
+
+data class MainUiState(
+    val selectedReport: Report = Report(0, WorkDay.Unspecified, report = null, timeOn = null, timeOff = null),
+    val weeksReport: List<WeeksReport> = listOf()
+)
+

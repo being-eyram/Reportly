@@ -9,5 +9,6 @@ enum class WorkDay {
     Tuesday,
     Wednesday,
     Thursday,
-    Friday
+    Friday,
+    Unspecified
 }

@@ -36,12 +36,13 @@ fun Screen(viewmodel: ReportlyViewmodel) {
         modifier = Modifier.fillMaxSize(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
+        val uiState = viewmodel.uiState.collectAsState().value
 
         ReportsTab(
-            treeViewData = viewmodel.weeksReport.collectAsState().value,
+            treeViewData = uiState.weeksReport,
             onAddButtonClick = { viewmodel.commitWeeksReport() },
             onSelect = viewmodel::onSelect,
-            selectedStateHolder = viewmodel.selectedReportStateHolder
+            selectedReport = uiState.selectedReport
         )
 
         ComposeReportSection()
