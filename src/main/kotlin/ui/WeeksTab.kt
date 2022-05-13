@@ -32,11 +32,6 @@ fun RowScope.ReportsTab(
     onSelect: (report: Report) -> Unit,
     selectedStateHolder: Map<Report, Boolean>
 ) {
-
-//    val mapofExpandedWeeklyReport = remember { mutableStateMapOf<Int, Boolean>() }
-//    mapofExpandedWeeklyReport.putAll(treeViewData.associate { it.id to false })
-
-
     Column(
         Modifier.weight(0.22f)
             .wrapContentHeight()
@@ -78,18 +73,16 @@ fun RowScope.ReportsTab(
         val selectedColor = Color.White.copy(alpha = 0.07f)
 
         LazyColumn(modifier = Modifier.weight(0.7f)) {
-
             items(items = treeViewData) { weeksReport ->
-
                 TreeView(
                     modifier = Modifier.wrapContentHeight(),
-                    title = "Week${weeksReport.id}",
+                    title = "Week ${weeksReport.id + 1}",
                 ) {
 
                     weeksReport.dailyReports.forEach { report ->
                         TreeViewItem(
                             selected = selectedStateHolder[report]!!,
-                            onClick = { onSelect.invoke(report) },
+                            onSelect = { onSelect.invoke(report) },
                             label = { Text(report.workDay.name, color = Color.White) },
                             selectedContentColor = selectedColor,
                         )
@@ -101,7 +94,6 @@ fun RowScope.ReportsTab(
         Divider(Modifier.fillMaxWidth())
 
         AddNewButton(onClick = onAddButtonClick)
-
     }
 }
 

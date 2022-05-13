@@ -104,7 +104,7 @@ fun StatelessTreeView(
 @Composable
 fun TreeViewItem(
     selected: Boolean,
-    onClick: () -> Unit,
+    onSelect: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     label: @Composable () -> Unit,
@@ -123,7 +123,7 @@ fun TreeViewItem(
             .requiredHeightIn(32.dp, 32.dp)
             .selectable(
                 selected = selected,
-                onClick = onClick,
+                onClick = onSelect,
                 enabled = enabled,
                 role = Role.Tab,
                 interactionSource = interactionSource,
@@ -216,6 +216,5 @@ fun TreeViewHeader(title: String, onExpandButtonClick: () -> Unit) {
                 tint = Color.White
             )
         }
-
     }
 }
