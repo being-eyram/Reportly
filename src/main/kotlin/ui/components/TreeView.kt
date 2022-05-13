@@ -1,10 +1,11 @@
+package ui.components
+
+import ReportlyIconButton
 import androidx.compose.animation.*
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
@@ -24,10 +25,29 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import util.Icons
 
-@OptIn(ExperimentalAnimationApi::class)
+
 @Composable
 fun TreeView(
     modifier: Modifier = Modifier,
+    title: String,
+    content: @Composable ColumnScope.() -> Unit
+) {
+    val isExpanded = remember { mutableStateOf(false) }
+
+    StatelessTreeView(
+        modifier = modifier,
+        isExpanded = isExpanded.value,
+        onExpandButtonClick = { isExpanded.value = !isExpanded.value },
+        title = title,
+        content = content
+    )
+
+}
+
+
+@Composable
+fun StatelessTreeView(
+    modifier: Modifier,
     backgroundColor: Color = Color.Transparent,
     contentColor: Color = contentColorFor(backgroundColor),
     isExpanded: Boolean,
@@ -107,7 +127,7 @@ fun TreeViewItem(
                 enabled = enabled,
                 role = Role.Tab,
                 interactionSource = interactionSource,
-                indication = null
+                indication = rememberRipple(bounded = true,)
             ),
         contentAlignment = Alignment.Center
     ) {

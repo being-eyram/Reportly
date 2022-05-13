@@ -18,16 +18,23 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import io.eyram.reportly.sqldelight.report.Report
 import models.WeeksReport
-import models.WorkDay
 import ui.components.SearchInputField
+import ui.components.TreeView
+import ui.components.TreeViewItem
 import util.Icons
 
 @Composable
-fun RowScope.WeeksTab(treeViewData: List<WeeksReport>, onAddButtonClick : () -> Unit) {
+fun RowScope.ReportsTab(
+    treeViewData: List<WeeksReport>,
+    onAddButtonClick: () -> Unit,
+    onSelect: (report: Report) -> Unit,
+    selectedStateHolder: Map<Report, Boolean>
+) {
 
-    val mapofExpandedWeeklyReport = remember { mutableStateMapOf<Int, Boolean>() }
-    mapofExpandedWeeklyReport.putAll(treeViewData.associate { it.id to false })
+//    val mapofExpandedWeeklyReport = remember { mutableStateMapOf<Int, Boolean>() }
+//    mapofExpandedWeeklyReport.putAll(treeViewData.associate { it.id to false })
 
 
     Column(
@@ -72,18 +79,18 @@ fun RowScope.WeeksTab(treeViewData: List<WeeksReport>, onAddButtonClick : () -> 
 
         LazyColumn(modifier = Modifier.weight(0.7f)) {
 
-            items(items = treeViewData) { item ->
+            items(items = treeViewData) { weeksReport ->
+
                 TreeView(
                     modifier = Modifier.wrapContentHeight(),
-                    title = "Week${item.id}",
-                    isExpanded = mapofExpandedWeeklyReport[item.id]!!,
-                    onExpandButtonClick = { mapofExpandedWeeklyReport[item.id] = !mapofExpandedWeeklyReport[item.id]!! }
+                    title = "Week${weeksReport.id}",
                 ) {
-                    WorkDay.values().forEach {
+
+                    weeksReport.dailyReports.forEach { report ->
                         TreeViewItem(
-                            selected = false,
-                            onClick = { },
-                            label = { Text(it.name, color = Color.White) },
+                            selected = selectedStateHolder[report]!!,
+                            onClick = { onSelect.invoke(report) },
+                            label = { Text(report.workDay.name, color = Color.White) },
                             selectedContentColor = selectedColor,
                         )
                     }
@@ -100,7 +107,7 @@ fun RowScope.WeeksTab(treeViewData: List<WeeksReport>, onAddButtonClick : () -> 
 
 
 @Composable
-fun AddNewButton(modifier : Modifier = Modifier,onClick: () -> Unit) {
+fun AddNewButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
     Row(
         modifier = modifier
             .height(40.dp)

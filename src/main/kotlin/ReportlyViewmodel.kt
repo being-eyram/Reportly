@@ -1,4 +1,4 @@
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateMapOf
 import io.eyram.reportly.sqldelight.report.Report
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.StateFlow
 import models.WeeksReport
 import models.WorkDay
 import org.jetbrains.skiko.MainUIDispatcher
-import org.koin.core.context.GlobalContext
 
 class ReportlyViewmodel(private val repository: ReportlyRepository) {
 
@@ -18,12 +17,19 @@ class ReportlyViewmodel(private val repository: ReportlyRepository) {
 
     private var _weeksReport = MutableStateFlow(listOf(WeeksReport(0, listOf())))
 
+    val selectedReportStateHolder = mutableStateMapOf<Report, Boolean>()
+
+    // mapofExpandedWeeklyReport.putAll(treeViewData.associate { it.id to false })
+
     init {
         mainScope.launch(Dispatchers.IO) {
             repository
                 .getAllReports()
                 .collect {
                     _weeksReport.value = it.mapIndexed { index, reports ->
+                        withContext(MainUIDispatcher) {
+                            selectedReportStateHolder.putAll(reports.associateWith { false })
+                        }
                         WeeksReport(index, reports)
                     }
                 }
@@ -52,5 +58,9 @@ class ReportlyViewmodel(private val repository: ReportlyRepository) {
                 )
             }
         )
+    }
+
+    fun onSelect(report: Report) {
+            selectedReportStateHolder[report] = !selectedReportStateHolder[report]!!
     }
 }

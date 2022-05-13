@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.sp
 import util.Icons
 
 @Composable
-fun RowScope.ReportDetailsSection() {
+fun RowScope.ComposeReportSection() {
     Column(
         Modifier.weight(0.88f)
             .fillMaxHeight()
